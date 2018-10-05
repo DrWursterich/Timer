@@ -1,24 +1,37 @@
 <?xml version="1.0"
-		encoding="UTF-8"?>
+encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <GridPane fx:id="root"
-		hgap="10.0"
 		maxHeight="1.7976931348623157E308"
 		maxWidth="1.7976931348623157E308"
 		minHeight="50.0"
 		minWidth="172.0"
-		pickOnBounds="false"
 		prefHeight="80.0"
 		prefWidth="360.0"
+		hgap="10.0"
 		vgap="10.0"
+		pickOnBounds="false"
 		xmlns="http://javafx.com/javafx/8"
 		xmlns:fx="http://javafx.com/fxml/1">
 	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES"
+				minWidth="10.0"
+				prefWidth="100.0"/>
+		<ColumnConstraints hgrow="SOMETIMES"
+				minWidth="10.0"
+				prefWidth="100.0"/>
+		<ColumnConstraints hgrow="SOMETIMES"
+				minWidth="10.0"
+				prefWidth="100.0"/>
+		<ColumnConstraints hgrow="SOMETIMES"
+				minWidth="10.0"
+				prefWidth="100.0"/>
 		<ColumnConstraints hgrow="SOMETIMES"
 				minWidth="10.0"
 				prefWidth="100.0"/>
@@ -31,34 +44,63 @@
 		<RowConstraints vgrow="SOMETIMES"/>
 	</rowConstraints>
 	<children>
-		<Button defaultButton="true"
+		<Button fx:id="BackwardsButton"
 				maxHeight="1.7976931348623157E308"
 				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Backwards"/>
+		<Button fx:id="PauseButton"
+				defaultButton="true"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
 				text="Pause"
-				mnemonicParsing="false"
-				GridPane.halignment="CENTER"
-				GridPane.valignment="TOP"
-				GridPane.hgrow="ALWAYS"
-				GridPane.vgrow="ALWAYS"/>
-		<Button maxHeight="1.7976931348623157E308"
-				maxWidth="1.7976931348623157E308"
-				text="Restart"
-				mnemonicParsing="false"
-				GridPane.columnIndex="1"
-				GridPane.halignment="CENTER"
-				GridPane.valignment="TOP"
-				GridPane.hgrow="ALWAYS"
-				GridPane.vgrow="ALWAYS"/>
-		<Button cancelButton="true"
+				GridPane.columnIndex="1"/>
+		<Button fx:id="ForwardsButton"
 				maxHeight="1.7976931348623157E308"
 				maxWidth="1.7976931348623157E308"
-				text="Settings"
 				mnemonicParsing="false"
-				GridPane.rowIndex="1"
-				GridPane.halignment="CENTER"
-				GridPane.valignment="TOP"
-				GridPane.hgrow="ALWAYS"
-				GridPane.vgrow="ALWAYS"/>
+				text="Forwards"
+				GridPane.columnIndex="2"/>
+		<Button fx:id="SettingsButton"
+				cancelButton="true"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Settings"
+				GridPane.columnIndex="3"/>
+		<Button fx:id="MoveButton"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Move"
+				GridPane.columnIndex="4"/>
+		<Button fx:id="ExitButton"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Exit"
+				GridPane.columnIndex="5"/>
+		<Button fx:id="NewButton"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="New"
+				GridPane.rowIndex="1"/>
+		<Button fx:id="RestartButton"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Restart"
+				GridPane.columnIndex="1"
+				GridPane.rowIndex="1"/>
+		<Button fx:id="ModeButton"
+				maxHeight="1.7976931348623157E308"
+				maxWidth="1.7976931348623157E308"
+				mnemonicParsing="false"
+				text="Mode"
+				GridPane.columnIndex="2"
+				GridPane.rowIndex="1"/>
 	</children>
 	<padding>
 		<Insets bottom="5.0"

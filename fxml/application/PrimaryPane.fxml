@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <GridPane fx:id="root"
+		fx:controller="controller.PrimaryPane"
 		maxHeight="1.7976931348623157E308"
 		maxWidth="1.7976931348623157E308"
 		minHeight="50.0"
@@ -39,7 +40,8 @@
 				minHeight="50"/>
 	</rowConstraints>
 	<children>
-		<Label styleClass="numberLabel"
+		<Label fx:id="hoursLabel"
+				styleClass="numberLabel"
 				text="00"
 				GridPane.columnIndex="0"
 				GridPane.halignment="CENTER"
@@ -53,7 +55,8 @@
 				GridPane.hgrow="ALWAYS"
 				GridPane.valignment="CENTER"
 				GridPane.vgrow="ALWAYS"/>
-		<Label styleClass="numberLabel"
+		<Label fx:id="minutesLabel"
+				styleClass="numberLabel"
 				text="00"
 				GridPane.columnIndex="2"
 				GridPane.halignment="CENTER"
@@ -67,7 +70,8 @@
 				GridPane.hgrow="ALWAYS"
 				GridPane.valignment="CENTER"
 				GridPane.vgrow="ALWAYS"/>
-		<Label styleClass="numberLabel"
+		<Label fx:id="secondsLabel"
+				styleClass="numberLabel"
 				text="00"
 				GridPane.columnIndex="4"
 				GridPane.halignment="CENTER"
