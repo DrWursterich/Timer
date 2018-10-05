@@ -1,0 +1,8 @@
+#root {
+	lighter: derive(normal, +100%);
+	normal: #5c798d7f;
+	darker: derive(normal, -50%);
+
+	-fx-background-color: linear-gradient(to bottom, lighter, normal, darker);
+	-fx-background-radius: 5;
+}

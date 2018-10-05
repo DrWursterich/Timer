@@ -1,0 +1,12 @@
+GridPane Label {
+	-fx-font-size: 100px;
+	-fx-text-fill: #502f42ff;
+	-fx-text-alignment: center;
+}
+
+GridPane Label .text {
+	-fx-stroke: derive(white, -30%);
+	-fx-stroke-width: 2px;
+	-fx-stroke-line-join: round;
+	-fx-stroke-line-cap: round;
+}
