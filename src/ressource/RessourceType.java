@@ -1,13 +1,13 @@
-package util;
+package ressource;
 
-public enum Ressource {
+public enum RessourceType {
 	CSS("css", "css"),
 	FXML("fxml", "fxml");
 
 	private final String folder;
 	private final String extension;
 
-	Ressource(final String folder, final String extension) {
+	RessourceType(final String folder, final String extension) {
 		this.folder = folder;
 		this.extension = extension;
 	}
