@@ -10,15 +10,17 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import ressource.RessourceManager;
+import timer.Mode;
+import timer.Timer;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import util.RessourceLoader;
 
-public class Main extends Application implements RessourceLoader {
+public class Main extends Application {
 	private final Rectangle2D SCREEN = Screen.getPrimary().getVisualBounds();
 	private Parent primaryPane;
 	private Parent secondaryPane;
@@ -26,13 +28,21 @@ public class Main extends Application implements RessourceLoader {
 	private Scene scene;
 	private boolean animationIsPlaying = false;
 	private boolean mouseIsHovering = false;
+	private static Main instance;
+	private final Timer timer = new Timer();
 
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			Main.instance = this;
 //			List<String> args = this.getParameters().getRaw();
-			this.primaryPane = this.createRessource("application.PrimaryPane");
-			this.secondaryPane = this.createRessource("application.SecondaryPane");
+			this.timer.setPriority(Thread.MIN_PRIORITY);
+			this.timer.setMode(Mode.STOP_WATCH);
+			this.timer.start();
+			this.primaryPane = RessourceManager.getRessource(
+					"application.PrimaryPane");
+			this.secondaryPane = RessourceManager.getRessource(
+					"application.SecondaryPane");
 			this.secondaryPane.setOpacity(0);
 			this.root = new StackPane(this.secondaryPane, this.primaryPane);
 			this.root.setBackground(null);
@@ -53,6 +63,14 @@ public class Main extends Application implements RessourceLoader {
 
 	public static void main(String...args) {
 		Application.launch(args);
+	}
+
+	public static Main getInstance() {
+		return Main.instance;
+	}
+
+	public Timer getTimer() {
+		return this.timer;
 	}
 
 	private void initAnimations() {
@@ -130,5 +148,10 @@ public class Main extends Application implements RessourceLoader {
 				exitTransition.play();
 			}
 		});
+	}
+
+	@Override
+	public void stop() {
+		this.timer.terminate();
 	}
 }
