@@ -1,8 +1,59 @@
-#root {
-	lighter: derive(normal, +100%);
-	normal: #5c798d7f;
-	darker: derive(normal, -50%);
+* {
+	-fx-primary-color: #5c798d7f
+}
 
-	-fx-background-color: linear-gradient(to bottom, lighter, normal, darker);
+#root {
+	-lighter: derive(-fx-primary-color, +100%);
+	-normal: -fx-primary-color;
+	-darker: derive(-fx-primary-color, -50%);
+
+	-fx-background-color: linear-gradient(to bottom, -lighter, -normal, -darker);
 	-fx-background-radius: 5;
+}
+
+Button {
+	-fx-background-color: rgba(0, 0, 0, 0.15);
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: 100%;
+	-fx-background-radius: 8px;
+}
+
+Button:hover {
+	-fx-background-color: rgba(255, 255, 255, 0.5);
+}
+
+#BackwardsButton {
+	-fx-background-image: url('file:../../images/BackwardsButton.png');
+}
+
+#PauseButton {
+	-fx-background-image: url('file:../../images/PauseButton.png');
+}
+
+#ForwardsButton {
+	-fx-background-image: url('file:../../images/ForwardsButton.png');
+}
+
+#SettingsButton {
+	-fx-background-image: url('file:../../images/SettingsButton.png');
+}
+
+#MoveButton {
+	-fx-background-image: url('file:../../images/MoveButton.png');
+}
+
+#ExitButton {
+	-fx-background-image: url('file:../../images/ExitButton.png');
+}
+
+#StartNewButton {
+	-fx-background-image: url('file:../../images/StartNewButton.png');
+}
+
+#RestartButton {
+	-fx-background-image: url('file:../../images/RestartButton.png');
+}
+
+#ModeButton {
+	-fx-background-image: url('file:../../images/ModeButton.png');
 }
