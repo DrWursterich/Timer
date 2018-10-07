@@ -13,7 +13,7 @@ public class Time {
 					String.format("%02d", Time.this.value));
 
 	public Time() {
-		this(99, null, null);
+		this(100, null, null);
 	}
 
 	public Time(int maxValue) {
@@ -33,9 +33,9 @@ public class Time {
 			throw new IllegalArgumentException(
 					"MaxValue cannot be negative or zero");
 		}
-		if (maxValue > 99) {
+		if (maxValue > 100) {
 			throw new IllegalArgumentException(
-					"MaxValue cannot be more than two digits");
+					"MaxValue cannot be higher than 100");
 		}
 		this.maxValue = maxValue;
 		this.nextInstance = nextInstance;
@@ -54,11 +54,12 @@ public class Time {
 	public void setValue(int value) {
 		if (value < 0) {
 			throw new IllegalArgumentException(
-					"Value cannot be negative");
+					"Value(" + value + ") cannot be negative");
 		}
 		if (value >= this.maxValue) {
 			throw new IllegalArgumentException(
-					"Value cannot be higher than its MaxValue");
+					"Value(" + value + ") "
+					+ "cannot be higher than its MaxValue(" + this.maxValue + ")");
 		}
 		this.value = value;
 		this.updateLabel();
@@ -96,13 +97,13 @@ public class Time {
 		this.setValue(newAmount % this.maxValue);
 	}
 
-	public void subtract(int amount) {//25
-		int newAmount = this.value - amount; //-24 
+	public void subtract(int amount) {
+		int newAmount = this.value - amount;
 		if (newAmount < 0) {
 			if (this.nextInstance != null) {
 				this.nextInstance.subtract(1 - newAmount / this.maxValue);
 			}
-			newAmount = this.maxValue - (-newAmount % this.maxValue);
+			newAmount = this.maxValue - (-newAmount % this.maxValue) - 1;
 		}
 		this.setValue(newAmount);
 	}
@@ -116,8 +117,8 @@ public class Time {
 	}
 
 	public void decrement() {
-		this.value = this.value == 0 ? this.maxValue : this.value -1;
-		if (this.value == this.maxValue && this.nextInstance != null) {
+		this.value = (this.value == 0 ? this.maxValue : this.value) - 1;
+		if (this.value + 1 == this.maxValue && this.nextInstance != null) {
 			this.nextInstance.decrement();
 		}
 		this.updateLabel();

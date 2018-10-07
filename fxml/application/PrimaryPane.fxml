@@ -16,6 +16,7 @@
 		maxWidth="1.7976931348623157E308"
 		minHeight="50.0"
 		minWidth="172.0"
+		mouseTransparent="true"
 		pickOnBounds="false"
 		xmlns:fx="http://javafx.com/fxml/1"
 		xmlns="http://javafx.com/javafx/8">
