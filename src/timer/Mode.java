@@ -2,10 +2,12 @@ package timer;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneId;
+
 
 public enum Mode {
 	STOP_WATCH() {
-		public final double SKIP_PERCENTAGE = 0.5;
+		public final double SKIP_PERCENTAGE = 0.15;
 
 		@Override
 		public void run() {
@@ -34,10 +36,6 @@ public enum Mode {
 		}
 
 		@Override
-		public void pause() {
-		}
-
-		@Override
 		public void forwards() {
 			this.seconds.add((int)(Math.ceil(
 					this.seconds.getEntireValue() * this.SKIP_PERCENTAGE)));
@@ -51,7 +49,59 @@ public enum Mode {
 		public void restart() {
 			this.seconds.setEntireValue(0);
 		}
+	},
+
+	TIMER() {
+		public final double SKIP_PERCENTAGE = 0.15;
+
+		@Override
+		public void run() {
+			Instant current = this.clock.instant();
+			int seconds = (int)(current.getEpochSecond() - this.last.getEpochSecond());
+			if (seconds != 0) {
+				if (seconds > 1) {
+					this.seconds.subtract(seconds);
+					System.out.println("clock display skipped " + seconds + " seconds");
+				} else {
+					this.seconds.decrement();
+				}
+				this.last = current;
+			}
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				System.out.println("thread could not be paused");
+			}
+		}
+
+		@Override
+		public void backwards() {
+			this.seconds.add((int)(Math.ceil(
+					this.seconds.getEntireValue() * this.SKIP_PERCENTAGE)));
+		}
+
+		@Override
+		public void forwards() {
+			this.seconds.subtract((int)Math.ceil(
+					this.seconds.getEntireValue() * this.SKIP_PERCENTAGE));
+		}
+
+		@Override
+		public void startNew() {
+			this.restart();
+		}
+
+		@Override
+		public void restart() {
+			this.seconds.setEntireValue(10 * 60);
+		}
+
+		@Override
+		public void initialize() {
+			this.seconds.setEntireValue(10 * 60);
+		}
 	};
+
 
 	protected Timer timer;
 	protected Clock clock;
@@ -71,16 +121,22 @@ public enum Mode {
 
 	protected void initialize() {}
 
+	public void pause() {
+		this.clock = Clock.fixed(this.clock.instant(), ZoneId.systemDefault());
+	}
+
+	public void unpause() {
+		this.clock = Clock.tickSeconds(ZoneId.systemDefault());
+		this.last = this.clock.instant();
+	}
+
 	public abstract void run();
 
 	public abstract void backwards();
-
-	public abstract void pause();
 
 	public abstract void forwards();
 
 	public abstract void startNew();
 
 	public abstract void restart();
-
 }
