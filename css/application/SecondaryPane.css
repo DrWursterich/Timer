@@ -30,6 +30,10 @@ Button:hover {
 	-fx-background-image: url('file:../../images/PauseButton.png');
 }
 
+#UnpauseButton {
+	-fx-background-image: url('file:../../images/UnpauseButton.png');
+}
+
 #ForwardsButton {
 	-fx-background-image: url('file:../../images/ForwardsButton.png');
 }

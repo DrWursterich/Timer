@@ -35,9 +35,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Main.instance = this;
-//			List<String> args = this.getParameters().getRaw();
 			this.timer.setPriority(Thread.MIN_PRIORITY);
-			this.timer.setMode(Mode.STOP_WATCH);
+			this.timer.setMode(Mode.TIMER);
 			this.timer.start();
 			this.primaryPane = RessourceManager.getRessource(
 					"application.PrimaryPane");
@@ -57,7 +56,7 @@ public class Main extends Application {
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
-			System.exit(0);
+			System.exit(1);
 		}
 	}
 

@@ -3,6 +3,8 @@ package timer;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Label;
 
 public class Timer extends Thread {
@@ -13,6 +15,7 @@ public class Timer extends Thread {
 	Instant last = this.clock.instant();
 	private volatile boolean terminate = false;
 	private Mode mode;
+	protected BooleanProperty paused = new SimpleBooleanProperty(false);
 
 	public void setMode(Mode mode) {
 		if (this.mode != null) {
@@ -46,6 +49,10 @@ public class Timer extends Thread {
 
 	public void pause() {
 		this.mode.pause();
+	}
+
+	public void unpause() {
+		this.mode.unpause();
 	}
 
 	public void forwards() {

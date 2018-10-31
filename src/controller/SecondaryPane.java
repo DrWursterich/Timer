@@ -27,6 +27,8 @@ public class SecondaryPane {
 	private Button RestartButton;
 	@FXML
 	private Button ModeButton;
+	@FXML
+	private Button UnpauseButton;
 
 	public SecondaryPane() {}
 
@@ -38,6 +40,15 @@ public class SecondaryPane {
 	@FXML
 	public void pause() {
 		Main.getInstance().getTimer().pause();
+		this.PauseButton.setVisible(false);
+		this.UnpauseButton.setVisible(true);
+	}
+
+	@FXML
+	public void unpause() {
+		Main.getInstance().getTimer().unpause();
+		this.PauseButton.setVisible(true);
+		this.UnpauseButton.setVisible(false);
 	}
 
 	@FXML
