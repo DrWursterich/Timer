@@ -1,6 +1,7 @@
 package ressource;
 
-import static ressource.RessourceType.*;
+import static ressource.RessourceType.CSS;
+import static ressource.RessourceType.FXML;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;

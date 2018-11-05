@@ -1,11 +1,19 @@
 package application;
 
+import java.util.Optional;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -13,12 +21,6 @@ import javafx.util.Duration;
 import ressource.RessourceManager;
 import timer.Mode;
 import timer.Timer;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 
 public class Main extends Application {
 	private final Rectangle2D SCREEN = Screen.getPrimary().getVisualBounds();
@@ -30,6 +32,7 @@ public class Main extends Application {
 	private boolean mouseIsHovering = false;
 	private static Main instance;
 	private final Timer timer = new Timer();
+	private Dialog<Mode> modeSelect = new Dialog<>();
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -43,6 +46,7 @@ public class Main extends Application {
 			this.secondaryPane = RessourceManager.getRessource(
 					"application.SecondaryPane");
 			this.secondaryPane.setOpacity(0);
+			RessourceManager.getRessource("application.ModeSelect");
 			this.root = new StackPane(this.secondaryPane, this.primaryPane);
 			this.root.setBackground(null);
 			this.scene = new Scene(this.root, 360, 80);
@@ -70,6 +74,18 @@ public class Main extends Application {
 
 	public Timer getTimer() {
 		return this.timer;
+	}
+
+	public void setModeSelectDialog(Dialog<Mode> dialog) {
+		this.modeSelect = dialog;
+	}
+
+	public void chooseMode() {
+		Optional<Mode> result = this.modeSelect.showAndWait();
+		if (result != null && result.isPresent()) {
+			Mode mode = result.get();
+			this.timer.setMode(mode);
+		}
 	}
 
 	private void initAnimations() {

@@ -6,7 +6,7 @@ import java.time.ZoneId;
 
 
 public enum Mode {
-	STOP_WATCH() {
+	STOP_WATCH("Stop Watch") {
 		public final double SKIP_PERCENTAGE = 0.15;
 
 		@Override
@@ -51,7 +51,7 @@ public enum Mode {
 		}
 	},
 
-	TIMER() {
+	TIMER("Timer") {
 		public final double SKIP_PERCENTAGE = 0.15;
 
 		@Override
@@ -102,13 +102,17 @@ public enum Mode {
 		}
 	};
 
-
 	protected Timer timer;
 	protected Clock clock;
 	protected Time hours;
 	protected Time minutes;
 	protected Time seconds;
 	protected Instant last;
+	protected String name;
+
+	Mode (String name) {
+		this.name = name;
+	}
 
 	protected void setTimer(Timer timer) {
 		this.timer = timer;
@@ -139,4 +143,9 @@ public enum Mode {
 	public abstract void startNew();
 
 	public abstract void restart();
+
+	@Override
+	public String toString() {
+		return this.name != null ? this.name : super.toString();
+	}
 }

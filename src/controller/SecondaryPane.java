@@ -81,5 +81,6 @@ public class SecondaryPane {
 
 	@FXML
 	public void chooseMode() {
+		Main.getInstance().chooseMode();
 	}
 }
