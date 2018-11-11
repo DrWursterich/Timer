@@ -1,5 +1,5 @@
 GridPane Label {
-	-fx-font-size: 100px;
+	-fx-font: normal normal 100px sans-serif;
 	-fx-text-fill: #502f42ff;
 	-fx-text-alignment: center;
 }
