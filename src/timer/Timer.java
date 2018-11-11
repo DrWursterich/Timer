@@ -3,12 +3,9 @@ package timer;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
-
-import javafx.beans.property.BooleanProperty;
+import controller.PrimaryPane;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Label;
 
 public class Timer extends Thread {
 	final Clock clock = Clock.tickSeconds(ZoneId.systemDefault());
@@ -19,6 +16,7 @@ public class Timer extends Thread {
 	private volatile boolean terminate = false;
 	private final ObjectProperty<Mode> mode = new SimpleObjectProperty<>();
 	protected boolean paused = false;
+	private PrimaryPane primaryPane;
 
 	public void setMode(final Mode mode) {
 		final Mode current = this.mode.get();
@@ -42,22 +40,27 @@ public class Timer extends Thread {
 		return this.mode;
 	}
 
+	public void setPrimaryPane(final PrimaryPane pane) {
+		this.primaryPane = pane;
+		this.hours.setLabel(pane.getHourLabel());
+		this.minutes.setLabel(pane.getMinuteLabel());
+		this.seconds.setLabel(pane.getSecondLabel());
+	}
+
 	@Override
 	public void run() {
 		while(!this.terminate) {
 			this.mode.get().run();
+			if (this.primaryPane != null) {
+				this.primaryPane.setSeparationVisible(
+						this.clock.instant().getEpochSecond() % 2 == 1
+						|| this.paused);
+			}
 		}
 	}
 
 	public void terminate() {
 		this.terminate = true;
-	}
-
-	public void setTimerLabels(
-			final Label hours, final Label minutes, final Label seconds) {
-		this.hours.setLabel(hours);
-		this.minutes.setLabel(minutes);
-		this.seconds.setLabel(seconds);
 	}
 
 	public void backwards() {

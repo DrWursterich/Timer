@@ -49,7 +49,8 @@
 				GridPane.hgrow="ALWAYS"
 				GridPane.valignment="CENTER"
 				GridPane.vgrow="ALWAYS"/>
-		<Label styleClass="separatorLabel"
+		<Label fx:id="leftSeparationLabel"
+				styleClass="separatorLabel"
 				text=":"
 				GridPane.columnIndex="1"
 				GridPane.halignment="CENTER"
@@ -64,7 +65,8 @@
 				GridPane.hgrow="ALWAYS"
 				GridPane.valignment="CENTER"
 				GridPane.vgrow="ALWAYS"/>
-		<Label styleClass="separatorLabel"
+		<Label fx:id="rightSeparationLabel"
+				styleClass="separatorLabel"
 				text=":"
 				GridPane.columnIndex="3"
 				GridPane.halignment="CENTER"
