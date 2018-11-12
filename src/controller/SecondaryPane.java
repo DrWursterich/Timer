@@ -10,27 +10,36 @@ public class SecondaryPane {
 	@FXML
 	private GridPane root;
 	@FXML
-	private Button BackwardsButton;
+	private Button backwardsButton;
 	@FXML
-	private Button PauseButton;
+	private Button pauseButton;
 	@FXML
-	private Button ForwardsButton;
+	private Button forwardsButton;
 	@FXML
-	private Button SettingsButton;
+	private Button settingsButton;
 	@FXML
-	private Button MoveButton;
+	private Button moveButton;
 	@FXML
-	private Button ExitButton;
+	private Button exitButton;
 	@FXML
-	private Button StartNewButton;
+	private Button startNewButton;
 	@FXML
-	private Button RestartButton;
+	private Button restartButton;
 	@FXML
-	private Button ModeButton;
+	private Button modeButton;
 	@FXML
-	private Button UnpauseButton;
+	private Button unpauseButton;
 
 	public SecondaryPane() {}
+
+	@FXML
+	public void initialize() {
+		if (this.moveButton != null) {
+			this.moveButton.setOnMousePressed(Main.getInstance()::startDrag);
+			this.moveButton.setOnMouseDragged(Main.getInstance()::dragging);
+			this.moveButton.setOnMouseReleased(Main.getInstance()::endDrag);
+		}
+	}
 
 	@FXML
 	public void backwards() {
@@ -40,15 +49,15 @@ public class SecondaryPane {
 	@FXML
 	public void pause() {
 		Main.getInstance().getTimer().pause();
-		this.PauseButton.setVisible(false);
-		this.UnpauseButton.setVisible(true);
+		this.pauseButton.setVisible(false);
+		this.unpauseButton.setVisible(true);
 	}
 
 	@FXML
 	public void unpause() {
 		Main.getInstance().getTimer().unpause();
-		this.PauseButton.setVisible(true);
-		this.UnpauseButton.setVisible(false);
+		this.pauseButton.setVisible(true);
+		this.unpauseButton.setVisible(false);
 	}
 
 	@FXML
@@ -58,10 +67,6 @@ public class SecondaryPane {
 
 	@FXML
 	public void settings() {
-	}
-
-	@FXML
-	public void move() {
 	}
 
 	@FXML

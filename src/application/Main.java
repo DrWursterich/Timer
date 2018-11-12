@@ -10,6 +10,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -23,24 +24,31 @@ import timer.Mode;
 import timer.Timer;
 
 public class Main extends Application {
-	private final Rectangle2D SCREEN = Screen.getPrimary().getVisualBounds();
+	private double screenWidth;
+	private double screenHeight;
 	private Parent primaryPane;
 	private Parent secondaryPane;
+	private Stage primaryStage;
 	private Pane root;
 	private Scene scene;
+	private ParallelTransition enterTransition;
+	private ParallelTransition exitTransition;
 	private boolean animationIsPlaying = false;
 	private boolean mouseIsHovering = false;
 	private static Main instance;
 	private final Timer timer = new Timer();
 	private Dialog<Mode> modeSelect = new Dialog<>();
+	private double xOffset = 0;
+	private double yOffset = 0;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(final Stage primaryStage) {
 		try {
 			Main.instance = this;
 			this.timer.setPriority(Thread.MIN_PRIORITY);
 			this.timer.setMode(Mode.TIMER);
 			this.timer.start();
+			this.primaryStage = primaryStage;
 			this.primaryPane = RessourceManager.getRessource(
 					"application.PrimaryPane");
 			this.secondaryPane = RessourceManager.getRessource(
@@ -51,10 +59,13 @@ public class Main extends Application {
 			this.root.setBackground(null);
 			this.scene = new Scene(this.root, 360, 80);
 			this.scene.setFill(Color.color(0.5, 0.5, 0.5, 0.01));
+			final Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+			this.screenWidth = screen.getMaxX() - this.scene.getWidth();
+			this.screenHeight = screen.getMaxY() - this.scene.getHeight();
 			this.initAnimations();
 			primaryStage.setScene(this.scene);
-			primaryStage.setX(this.SCREEN.getMaxX() - this.scene.getWidth());
-			primaryStage.setY(this.SCREEN.getMaxY() - this.scene.getHeight());
+			primaryStage.setX(this.screenWidth);
+			primaryStage.setY(this.screenHeight);
 			primaryStage.setAlwaysOnTop(true);
 			primaryStage.initStyle(StageStyle.TRANSPARENT);
 			primaryStage.show();
@@ -88,37 +99,64 @@ public class Main extends Application {
 		}
 	}
 
-	private void initAnimations() {
-		Duration duration = Duration.seconds(0.25);
-		double centerX = this.scene.getWidth() / 2;
-		double centerY = this.scene.getHeight() / 2;
-		double cornerX = this.scene.getWidth() * 0.75;
-		double cornerY = this.scene.getHeight() * 0.75;
+	public void startDrag(final MouseEvent mouseEvent) {
+		this.xOffset = this.primaryStage.getX() - mouseEvent.getScreenX();
+		this.yOffset = this.primaryStage.getY() - mouseEvent.getScreenY();
+	}
 
-		ScaleTransition zoomIn = new ScaleTransition(
+	public void dragging(final MouseEvent mouseEvent) {
+		final double newX = mouseEvent.getScreenX() + this.xOffset;
+		final double newY = mouseEvent.getScreenY() + this.yOffset;
+		this.primaryStage.setX(this.clamp(newX, 0, this.screenWidth));
+		this.primaryStage.setY(this.clamp(newY, 0, this.screenHeight));
+	}
+
+	public void endDrag(final MouseEvent mouseEvent) {
+		this.xOffset = 0;
+		this.yOffset = 0;
+		if (!this.mouseIsHovering && !this.animationIsPlaying) {
+			this.exitTransition.play();
+		}
+	}
+
+	private double clamp(
+			final double value,
+			final double min,
+			final double max) {
+		return Math.max(Math.min(value, max), min);
+	}
+
+	private void initAnimations() {
+		final Duration duration = Duration.seconds(0.25);
+		final double centerX = this.scene.getWidth() / 2;
+		final double centerY = this.scene.getHeight() / 2;
+		final double cornerX = this.scene.getWidth() * 0.75;
+		final double cornerY = this.scene.getHeight() * 0.75;
+
+		final ScaleTransition zoomIn = new ScaleTransition(
 				duration,
 				this.primaryPane);
-		PathTransition toCorner = new PathTransition(
+		final PathTransition toCorner = new PathTransition(
 				duration,
 				new Line(centerX, centerY, cornerX, cornerY),
 				this.primaryPane);
-		FadeTransition blendIn = new FadeTransition(
+		final FadeTransition blendIn = new FadeTransition(
 				duration,
 				this.secondaryPane);
-		ParallelTransition enterTransition = new ParallelTransition(
+		this.enterTransition = new ParallelTransition(
 				zoomIn,
 				toCorner,
 				blendIn);
 
-		ScaleTransition zoomOut = new ScaleTransition(
+		final ScaleTransition zoomOut = new ScaleTransition(
 				duration, this.primaryPane);
-		PathTransition toCenter = new PathTransition(
+		final PathTransition toCenter = new PathTransition(
 				duration,
 				new Line(cornerX, cornerY, centerX, centerY),
 				this.primaryPane);
-		FadeTransition blendOut = new FadeTransition(
+		final FadeTransition blendOut = new FadeTransition(
 				duration, this.secondaryPane);
-		ParallelTransition exitTransition = new ParallelTransition(
+		this.exitTransition = new ParallelTransition(
 				zoomOut,
 				toCenter,
 				blendOut);
@@ -136,16 +174,18 @@ public class Main extends Application {
 		blendOut.setFromValue(1);
 		blendOut.setToValue(0);
 
-		enterTransition.setOnFinished(e -> {
-			if (!this.mouseIsHovering) {
-				exitTransition.play();
+		this.enterTransition.setOnFinished(e -> {
+			if (!this.mouseIsHovering
+					&& this.xOffset == 0 && this.yOffset == 0) {
+				this.exitTransition.play();
 			} else {
 				this.animationIsPlaying = false;
 			}
 		});
-		exitTransition.setOnFinished(e -> {
-			if (this.mouseIsHovering) {
-				enterTransition.play();
+		this.exitTransition.setOnFinished(e -> {
+			if (this.mouseIsHovering
+					&& this.xOffset == 0 && this.yOffset == 0) {
+				this.enterTransition.play();
 			} else {
 				this.animationIsPlaying = false;
 			}
@@ -153,14 +193,16 @@ public class Main extends Application {
 
 		this.scene.setOnMouseEntered(e -> {
 			this.mouseIsHovering = true;
-			if (!this.animationIsPlaying) {
-				enterTransition.play();
+			if (!this.animationIsPlaying
+					&& this.xOffset == 0 && this.yOffset == 0) {
+				this.enterTransition.play();
 			}
 		});
 		this.scene.setOnMouseExited(e -> {
 			this.mouseIsHovering = false;
-			if (!this.animationIsPlaying) {
-				exitTransition.play();
+			if (!this.animationIsPlaying
+					&& this.xOffset == 0 && this.yOffset == 0) {
+				this.exitTransition.play();
 			}
 		});
 	}
