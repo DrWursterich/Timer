@@ -4,7 +4,6 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 
-
 public enum Mode {
 	STOP_WATCH("Stop Watch") {
 		public final double SKIP_PERCENTAGE = 0.15;
@@ -42,12 +41,8 @@ public enum Mode {
 		}
 
 		@Override
-		public void startNew() {
-		}
-
-		@Override
 		public void restart() {
-			this.seconds.setEntireValue(0);
+			this.timer.startAt(0);
 		}
 	},
 
@@ -84,11 +79,6 @@ public enum Mode {
 		public void forwards() {
 			this.seconds.subtract((int)Math.ceil(
 					this.seconds.getEntireValue() * this.SKIP_PERCENTAGE));
-		}
-
-		@Override
-		public void startNew() {
-			this.restart();
 		}
 
 		@Override
@@ -139,8 +129,6 @@ public enum Mode {
 	public abstract void backwards();
 
 	public abstract void forwards();
-
-	public abstract void startNew();
 
 	public abstract void restart();
 

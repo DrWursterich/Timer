@@ -6,15 +6,18 @@ import java.util.Arrays;
 import application.Main;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import timer.Mode;
+import timer.RunConfig;
 
 public class ModeSelect extends Dialog<Mode> {
 	@FXML
@@ -49,10 +52,29 @@ public class ModeSelect extends Dialog<Mode> {
 		});
 		this.getDialogPane().setContent(this.root);
 		this.getDialogPane().getButtonTypes().addAll(ButtonType.APPLY, ButtonType.CANCEL);
+		((Button)this.getDialogPane().lookupButton(ButtonType.CANCEL)).setCancelButton(true);
 		this.getDialogPane().lookupButton(ButtonType.APPLY).disableProperty().bind(
 				this.modeList.getSelectionModel().selectedItemProperty().isNull().or(
 					this.modeList.getSelectionModel().selectedItemProperty().isEqualTo(
 						Main.getInstance().getTimer().modeProperty())));
+		this.modeList.setOnMouseClicked(e -> {
+			if (this.modeList.getSelectionModel().getSelectedItem() != null
+					&& e.getClickCount() > 1) {
+				((Button)this.getDialogPane().lookupButton(ButtonType.APPLY)).fire();
+			}
+		});
+		this.modeList.setOnKeyPressed(e -> {
+			switch (e.getCode()) {
+			case ENTER:
+				((Button)this.getDialogPane().lookupButton(ButtonType.APPLY)).fire();
+				break;
+			case ESCAPE:
+				this.hide();
+				break;
+			default:
+				break;
+			}
+		});
 		this.setResultConverter(e -> {
 			return ButtonType.APPLY.equals(e)
 					? ModeSelect.this.modeList.getSelectionModel().getSelectedItem()
@@ -62,6 +84,7 @@ public class ModeSelect extends Dialog<Mode> {
 			this.modeList.setItems(FXCollections.observableList(
 					Arrays.asList(Mode.values())));
 			this.modeList.refresh();
+			this.modeList.requestFocus();
 		});
 	}
 }

@@ -76,7 +76,7 @@ public class SecondaryPane {
 
 	@FXML
 	public void startNew() {
-		this.restart();
+		Main.getInstance().startNew();
 	}
 
 	@FXML

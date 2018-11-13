@@ -81,6 +81,10 @@ public class Timer extends Thread {
 		this.mode.get().forwards();
 	}
 
+	public void startAt(final int seconds) {
+		this.seconds.setEntireValue(seconds);
+	}
+
 	public void restart() {
 		this.mode.get().restart();
 	}

@@ -6,6 +6,8 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +23,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import ressource.RessourceManager;
 import timer.Mode;
+import timer.RunConfig;
 import timer.Timer;
 
 public class Main extends Application {
@@ -37,7 +40,9 @@ public class Main extends Application {
 	private boolean mouseIsHovering = false;
 	private static Main instance;
 	private final Timer timer = new Timer();
+	private Dialog<RunConfig> startDialog = new Dialog<>();
 	private Dialog<Mode> modeSelect = new Dialog<>();
+	private final ObservableList<RunConfig> prevRunConfigs = FXCollections.observableArrayList();
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -55,6 +60,7 @@ public class Main extends Application {
 					"application.SecondaryPane");
 			this.secondaryPane.setOpacity(0);
 			RessourceManager.getRessource("application.ModeSelect");
+			RessourceManager.getRessource("application.StartDialog");
 			this.root = new StackPane(this.secondaryPane, this.primaryPane);
 			this.root.setBackground(null);
 			this.scene = new Scene(this.root, 360, 80);
@@ -87,16 +93,39 @@ public class Main extends Application {
 		return this.timer;
 	}
 
+	public ObservableList<RunConfig> getPrevRunConfigs() {
+		return this.prevRunConfigs;
+	}
+
 	public void setModeSelectDialog(Dialog<Mode> dialog) {
 		this.modeSelect = dialog;
+	}
+
+	public void setStartDialog(Dialog<RunConfig> dialog) {
+		this.startDialog = dialog;
 	}
 
 	public void chooseMode() {
 		Optional<Mode> result = this.modeSelect.showAndWait();
 		if (result != null && result.isPresent()) {
-			Mode mode = result.get();
-			this.timer.setMode(mode);
+			this.timer.setMode(result.get());
 		}
+	}
+
+	public void startNew() {
+		Optional<RunConfig> result = this.startDialog.showAndWait();
+		if (result != null && result.isPresent()) {
+			this.runConfig(result.get());
+		}
+	}
+
+	public void runConfig(RunConfig runConfig) {
+		if (this.prevRunConfigs.contains(runConfig)) {
+			this.prevRunConfigs.removeAll(runConfig);
+		}
+		this.prevRunConfigs.add(0, runConfig);
+		this.timer.setMode(runConfig.getMode());
+		this.timer.startAt(runConfig.getSeconds());
 	}
 
 	public void startDrag(final MouseEvent mouseEvent) {

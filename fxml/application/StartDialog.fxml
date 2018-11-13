@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import control.NumberField?>
+
+<VBox fx:id="root"
+		fx:controller="controller.StartDialog"
+		spacing="10"
+		xmlns="http://javafx.com/javafx/8"
+		xmlns:fx="http://javafx.com/fxml/1">
+	<HBox spacing="10"
+			alignment="CENTER">
+		<VBox alignment="CENTER">
+			<Label>Mode</Label>
+			<ComboBox fx:id="modeSelectBox"/>
+		</VBox>
+		<VBox alignment="CENTER">
+			<Label>Time</Label>
+			<HBox spacing="3">
+				<NumberField fx:id="hourField"
+						maxValue="99"
+						maxWidth="30"/>
+				<Label styleClass="separatorLabel">:</Label>
+				<NumberField fx:id="minuteField"
+						maxValue="59"
+						maxWidth="30"/>
+				<Label styleClass="separatorLabel">:</Label>
+				<NumberField fx:id="secondField"
+						maxValue="59"
+						maxWidth="30"/>
+			</HBox>
+		</VBox>
+	</HBox>
+	<ListView fx:id="prevRunConfigs"/>
+</VBox>
