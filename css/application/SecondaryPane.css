@@ -23,41 +23,41 @@ Button:hover {
 }
 
 #backwardsButton {
-	-fx-background-image: url('file:../../images/BackwardsButton.png');
+	-fx-background-image: url('./../../images/BackwardsButton.png');
 }
 
 #pauseButton {
-	-fx-background-image: url('file:../../images/PauseButton.png');
+	-fx-background-image: url('./../../images/PauseButton.png');
 }
 
 #unpauseButton {
-	-fx-background-image: url('file:../../images/UnpauseButton.png');
+	-fx-background-image: url('./../../images/UnpauseButton.png');
 }
 
 #forwardsButton {
-	-fx-background-image: url('file:../../images/ForwardsButton.png');
+	-fx-background-image: url('./../../images/ForwardsButton.png');
 }
 
 #settingsButton {
-	-fx-background-image: url('file:../../images/SettingsButton.png');
+	-fx-background-image: url('./../../images/SettingsButton.png');
 }
 
 #moveButton {
-	-fx-background-image: url('file:../../images/MoveButton.png');
+	-fx-background-image: url('./../../images/MoveButton.png');
 }
 
 #exitButton {
-	-fx-background-image: url('file:../../images/ExitButton.png');
+	-fx-background-image: url('./../../images/ExitButton.png');
 }
 
 #startNewButton {
-	-fx-background-image: url('file:../../images/StartNewButton.png');
+	-fx-background-image: url('./../../images/StartNewButton.png');
 }
 
 #restartButton {
-	-fx-background-image: url('file:../../images/RestartButton.png');
+	-fx-background-image: url('./../../images/RestartButton.png');
 }
 
 #modeButton {
-	-fx-background-image: url('file:../../images/ModeButton.png');
+	-fx-background-image: url('./../../images/ModeButton.png');
 }

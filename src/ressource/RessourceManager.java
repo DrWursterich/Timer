@@ -20,7 +20,7 @@ public class RessourceManager {
 		return new URL(
 				String.join(
 						File.separator,
-						"file:",
+						"file://",
 						RessourceManager.PROJECT_PATH,
 						ressource.getFolder(),
 						element.replace('.', File.separatorChar))

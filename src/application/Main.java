@@ -64,17 +64,22 @@ public class Main extends Application {
 			this.root = new StackPane(this.secondaryPane, this.primaryPane);
 			this.root.setBackground(null);
 			this.scene = new Scene(this.root, 360, 80);
-			this.scene.setFill(Color.color(0.5, 0.5, 0.5, 0.01));
+			this.scene.setFill(Color.color(0, 0, 0, 0.01));
 			final Rectangle2D screen = Screen.getPrimary().getVisualBounds();
 			this.screenWidth = screen.getMaxX() - this.scene.getWidth();
 			this.screenHeight = screen.getMaxY() - this.scene.getHeight();
 			this.initAnimations();
-			primaryStage.setScene(this.scene);
-			primaryStage.setX(this.screenWidth);
-			primaryStage.setY(this.screenHeight);
-			primaryStage.setAlwaysOnTop(true);
-			primaryStage.initStyle(StageStyle.TRANSPARENT);
-			primaryStage.show();
+			this.primaryStage.fullScreenProperty().addListener(e -> {
+				if (this.primaryStage.isFullScreen()) {
+					this.primaryStage.setFullScreen(false);
+				}
+			});
+			this.primaryStage.setScene(this.scene);
+			this.primaryStage.setX(this.screenWidth);
+			this.primaryStage.setY(this.screenHeight);
+			this.primaryStage.setAlwaysOnTop(true);
+			this.primaryStage.initStyle(StageStyle.TRANSPARENT);
+			this.primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 			System.exit(1);
