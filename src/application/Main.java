@@ -21,7 +21,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import ressource.RessourceManager;
+import resource.ResourceManager;
 import timer.Mode;
 import timer.RunConfig;
 import timer.Timer;
@@ -54,13 +54,13 @@ public class Main extends Application {
 			this.timer.setMode(Mode.TIMER);
 			this.timer.start();
 			this.primaryStage = primaryStage;
-			this.primaryPane = RessourceManager.getRessource(
+			this.primaryPane = ResourceManager.getResource(
 					"application.PrimaryPane");
-			this.secondaryPane = RessourceManager.getRessource(
+			this.secondaryPane = ResourceManager.getResource(
 					"application.SecondaryPane");
 			this.secondaryPane.setOpacity(0);
-			RessourceManager.getRessource("application.ModeSelect");
-			RessourceManager.getRessource("application.StartDialog");
+			ResourceManager.getResource("application.ModeSelect");
+			ResourceManager.getResource("application.StartDialog");
 			this.root = new StackPane(this.secondaryPane, this.primaryPane);
 			this.root.setBackground(null);
 			this.scene = new Scene(this.root, 360, 80);
@@ -87,6 +87,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String...args) {
+		ResourceManager.setResourcePath("");
 		Application.launch(args);
 	}
 
